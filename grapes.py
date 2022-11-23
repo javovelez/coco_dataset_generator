@@ -128,3 +128,31 @@ class GrapesMixTasks_159_268_Jobs_144_246(CocoManager):
             cv2.imwrite(output_dir + image_name, img)
 
 
+    def draw_labels_debug(self, json_path, images_dir, output_dir):
+        f = open(json_path)
+        data = json.load(f)
+        images_list = data['images']
+        annotations_list = data['annotations']
+        images_dict = {}
+        annotation_list = []
+        for image_dict in images_list:
+            images_dict[image_dict['id']] = image_dict['file_name']
+
+        for annotations_dict in annotations_list:
+            lista = [annotations_dict['image_id'], annotations_dict['center'][0], annotations_dict['center'][1], annotations_dict['radius']]
+            annotation_list.append(lista)
+        annotations_df = pd.DataFrame(annotation_list, columns=["image_id", 'center_x', 'center_y', 'radius'])
+        annotations_ids = annotations_df["image_id"]
+        for img_id, image_name in images_dict.items():
+            image_path = images_dir + image_name
+            if image_name == 'VID_20220217_101930_F0.png':
+                print("aca")
+            img = cv2.imread(image_path)
+            if img == None:
+                continue
+            ann_df = annotations_df[annotations_df['image_id']==img_id]
+            for idx in range(len(ann_df)):
+                image_id, center_x, center_y, radius = list(ann_df.iloc[idx])
+                self.draw_circle(img, (center_x, center_y), radius)
+            print(output_dir + image_name)
+            cv2.imwrite(output_dir + image_name, img)
