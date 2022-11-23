@@ -111,7 +111,7 @@ class GrapesMixTasks_159_268_Jobs_144_246(CocoManager):
             images_dict[image_dict['id']] = image_dict['file_name']
 
         for annotations_dict in annotations_list:
-            lista = [annotations_dict['image_id'], annotations_dict['center'][0], annotations_dict['center'][1], annotations_dict['radius']]
+            lista = [annotations_dict['image_id'], annotations_dict['circle_center'][0], annotations_dict['circle_center'][1], annotations_dict['circle_radius']]
             annotation_list.append(lista)
         annotations_df = pd.DataFrame(annotation_list, columns=["image_id", 'center_x', 'center_y', 'radius'])
         annotations_ids = annotations_df["image_id"]
@@ -146,7 +146,7 @@ class GrapesMixTasks_159_268_Jobs_144_246(CocoManager):
             if image_name == 'VID_20220217_101930_F0.png':
                 print("aca")
             img = cv2.imread(image_path)
-            if img == None:
+            if img is None:
                 continue
             ann_df = annotations_df[annotations_df['image_id']==img_id]
             for idx in range(len(ann_df)):
