@@ -13,8 +13,8 @@ def make_dir(path):
 
 if __name__ == "__main__":
     ### cfg ###
-    annotations_path_two_frames = "/content/drive/MyDrive/one_frame/annotations.xml" # Archivo qeu contiene el etiquetado
-    annotations_path_one_frame = "/content/drive/MyDrive/two_frames/annotations.xml" # Archivo qeu contiene el etiquetado
+    annotations_path_two_frames = "/content/drive/MyDrive/two_frames/annotations.xml" # Archivo qeu contiene el etiquetado
+    annotations_path_one_frame = "/content/drive/MyDrive/one_frame/annotations.xml" # Archivo qeu contiene el etiquetado
     categories = [{"id": 1, 'name': 'grape', 'supercategory': 'circle'}]
 
     draw_labels_flag = True
