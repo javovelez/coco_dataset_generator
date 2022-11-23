@@ -148,6 +148,8 @@ class GrapesMixTasks_159_268_Jobs_144_246(CocoManager):
             img = cv2.imread(image_path)
             if img is None:
                 continue
+            if img.shape[0] > img.shape[1]:
+                img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
             ann_df = annotations_df[annotations_df['image_id']==img_id]
             for idx in range(len(ann_df)):
                 image_id, center_x, center_y, radius = list(ann_df.iloc[idx])
