@@ -20,8 +20,8 @@ if __name__ == "__main__":
     draw_labels_flag = True
     save_images = False
 
-    images_path_two_frames = '/content/drive/MyDrive/one_frame/'
-    images_path_one_frame = '/content/drive/MyDrive/two_frames/'
+    images_path_two_frames = '/content/drive/MyDrive/two_frames/'
+    images_path_one_frame = '/content/drive/MyDrive/one_frame/'
     output_dir = '/content/'
     annotated_output_dir = '/content/drive/MyDrive/labeled_output/'
     resize_factor = 1  # si vale 1 no modifica el tamaño de las imágenes
