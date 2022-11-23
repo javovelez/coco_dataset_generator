@@ -104,6 +104,6 @@ if __name__ == "__main__":
 
     if draw_labels_flag:
         make_dir(annotated_output_dir)
-        coco_parser_one_frame.draw_labels(output_dir+'train.json', images_path_one_frame, annotated_output_dir)
-        coco_parser_one_frame.draw_labels(output_dir+'train.json', images_path_two_frames, annotated_output_dir)
+        coco_parser_one_frame.draw_labels_debug(output_dir+'train.json', images_path_one_frame, annotated_output_dir)
+        coco_parser_one_frame.draw_labels_debug(output_dir+'train.json', images_path_two_frames, annotated_output_dir)
 

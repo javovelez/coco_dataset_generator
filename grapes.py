@@ -24,12 +24,12 @@ class GrapesMixTasks_159_268_Jobs_144_246(CocoManager):
         for image in xml_image_list:
             points_tag_list = image.getElementsByTagName('points')
             img_xml_name = image.attributes["name"].value
+            image_name = self.image_name_parse(img_xml_name)
             if len(points_tag_list) == 0:
-                print("WARNING: no se encontraron etiquetas para la imagen ", img_xml_name)
+                print("WARNING: no se encontraron etiquetas para la imagen ", image_name)
                 continue
             img_xml_id = image.attributes["id"].value
 
-            image_name = self.image_name_parse(img_xml_name)
             if int(img_xml_id) > 104 or (image_name in self.rm):
                 continue
             if self.two_frames:
@@ -117,8 +117,6 @@ class GrapesMixTasks_159_268_Jobs_144_246(CocoManager):
         annotations_ids = annotations_df["image_id"]
         for img_id, image_name in images_dict.items():
             image_path = images_dir + image_name
-            if image_name == 'VID_20220217_101930_F0.png':
-                print("aca")
             img = cv2.imread(image_path)
             ann_df = annotations_df[annotations_df['image_id']==img_id]
             for idx in range(len(ann_df)):
@@ -139,7 +137,7 @@ class GrapesMixTasks_159_268_Jobs_144_246(CocoManager):
             images_dict[image_dict['id']] = image_dict['file_name']
 
         for annotations_dict in annotations_list:
-            lista = [annotations_dict['image_id'], annotations_dict['center'][0], annotations_dict['center'][1], annotations_dict['radius']]
+            lista = [annotations_dict['image_id'], annotations_dict['circle_center'][0], annotations_dict['circle_center'][1], annotations_dict['circle_radius']]
             annotation_list.append(lista)
         annotations_df = pd.DataFrame(annotation_list, columns=["image_id", 'center_x', 'center_y', 'radius'])
         annotations_ids = annotations_df["image_id"]
