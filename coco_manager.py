@@ -62,6 +62,10 @@ class CocoManager:
         else:
             raise Exception
 
+    def image_name_parse(self, name):
+        name = name.replace(self.prefix[0], self.prefix[1])
+        name = name.replace(self.suffix[0], self.suffix[1])
+        return name
 
     def get_centre_radius_circle_from_3_points(self, pts):
         x1 = pts[0]
@@ -126,6 +130,14 @@ class CocoManager:
     def draw_circle(self, img, center, radius, color=(23, 220, 75), thickness=1):
         img = cv2.circle(img, center, radius, color, thickness)
 
+    def draw_polygons(self,img, vertices, is_closed=True, color=(23, 220, 75), thickness=1):
+        vertices = np.array([[int(round(vertices[i])), int(round(vertices[i+1]))] for i in range(0, len(vertices)-1, 2)])
+        cv2.polylines(img, [vertices], is_closed, color, thickness)
+
+    def draw_points(self,img,  points_list, radius=1 ,color=(23, 220, 75), thickness=-1):
+        for point in points_list:
+            point = tuple( int(round(p)) for p in point)
+            cv2.circle(img, point, radius, color, thickness=thickness)
     def get_train_dict(self, output_path='.', filename=''):
         return self.dict_list_train
 
@@ -147,7 +159,7 @@ class CocoManager:
         images_list = df_group["image_name"]
         image_list = list(pd.unique(images_list))
 
-        if self.resize_factor != 1:
+        if resize_factor != 1:
             for image_name in images_list:
                 img = cv2.imread(dir_source + image_name)
                 if img is None:
@@ -164,12 +176,15 @@ class CocoManager:
             images_rotated_list = list(pd.unique(rotated_df['image_name']))
             for image_to_rotate in images_rotated_list:
                 img = cv2.imread(dir_source+ image_to_rotate)
+                if img is None:
+                    continue
                 img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
                 cv2.imwrite(dir_target + image_to_rotate, img)
             not_rotated_df = df_group[df_group['rotate']==False]
             images_not_rotated_list = list(pd.unique(not_rotated_df['image_name']))
             for image_to_copy in images_not_rotated_list:
-                shutil.copyfile(dir_source + image_to_copy, dir_target + image_to_copy)
+                if os.path.exists(dir_source + image_to_copy):
+                    shutil.copyfile(dir_source + image_to_copy, dir_target + image_to_copy)
 
     def get_img_id(self):
         return self.img_id
